@@ -1,7 +1,7 @@
 // import { Router } from 'express';
 // import * as taskController from '../controllers/task.controller';
 
-const router = Router();
+// const router = Router();
 
 // router.get('/', taskController.getAllTasks);
 // router.get('/:id', taskController.getTask);
@@ -15,7 +15,9 @@ import { Router } from 'express';
 import * as taskController from '../controllers/task.controller';
 import { validate } from '../middlewares/validation.middleware';
 import { createTaskSchema, updateTaskSchema } from '../validations/task.validation';
-
+import express from 'express';  // Default import
+const router = express.Router();  // Initialize Router correctly
+// const router = Router();
 
 router.get('/', taskController.getAllTasks);
 router.get('/:id', taskController.getTask);
