@@ -12,6 +12,7 @@ export const create = async (newTask: Omit<Task, 'id' | 'createdAt'>): Promise<T
   const task: Task = {
     id: (tasks.length + 1).toString(),
     ...newTask,
+    completed: false,
     createdAt: new Date()
   };
   tasks.push(task);
