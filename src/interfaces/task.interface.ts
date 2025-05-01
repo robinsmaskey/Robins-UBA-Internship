@@ -7,6 +7,6 @@ export interface Task {
   description: string;
   price: number;
   completed: boolean;
-  createdAt: Date;
+  createdAt: string;
   updatedAt?: Date
 }

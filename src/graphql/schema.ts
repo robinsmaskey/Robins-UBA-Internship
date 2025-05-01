@@ -5,29 +5,29 @@ export const typeDefs = gql`
     id: ID!
     title: String!
     description: String!
-    price:Int!
+    price: Int!
     completed: Boolean!
     createdAt: String!
-
-    
   }
 
   input CreateTaskInput {
+    id: ID!
     title: String!
     description: String!
+    price: Int!
     completed: Boolean
   }
 
   input UpdateTaskInput {
     title: String
     description: String
+    price: Int
     completed: Boolean
   }
 
   type Query {
     tasks(limit: Int, offset: Int): [Task!]!
     task(id: ID!): Task
-    hello: Int
   }
 
   type Mutation {

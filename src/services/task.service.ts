@@ -13,7 +13,7 @@ export const create = async (newTask: Omit<Task, 'id' | 'createdAt'>): Promise<T
     id: (tasks.length + 1).toString(),
     ...newTask,
     completed: false,
-    createdAt: new Date()
+    createdAt: new Date().toISOString() // Convert Date to ISO string
   };
   tasks.push(task);
   return task;
@@ -23,7 +23,10 @@ export const update = async (id: string, taskUpdate: Partial<Task>): Promise<Tas
   const taskIndex = tasks.findIndex(task => task.id === id);
   if (taskIndex === -1) return null;
   
-  tasks[taskIndex] = { ...tasks[taskIndex], ...taskUpdate };
+  tasks[taskIndex] = { 
+    ...tasks[taskIndex], 
+    ...taskUpdate 
+  };
   return tasks[taskIndex];
 };
 
