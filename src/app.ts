@@ -1,18 +1,35 @@
 import express from 'express';
+import { ApolloServer } from '@apollo/server';
+import { expressMiddleware } from '@apollo/server/express4';
 import bodyParser from 'body-parser';
-import taskRoutes from './routes/task.routes';
+import cors from 'cors';
+import { typeDefs } from './graphql/schema';
+import { resolvers } from './graphql/resolvers';
+import userRouter from './routes/task.routes'
 
-const app = express();
 
-// Middleware
-app.use(bodyParser.json());
+const PORT = process.env.PORT || 3000;
 
-// Routes
-app.use('/api/tasks', taskRoutes);
+export async function startServer(){
+  const app = express();
+  app.use(express.json());
+  app.use("/api/tasks", userRouter);
+  const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+    });
+  
+    await server.start();
+  
+    app.use(
+      '/graphql',
+      cors<cors.CorsRequest>(),
+      bodyParser.json(),
+      expressMiddleware(server)
+    );
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
 
-// Health check
-app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'OK' });
-});
-
-export default app;
+}
+  
