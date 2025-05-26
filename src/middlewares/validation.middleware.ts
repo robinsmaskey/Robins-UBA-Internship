@@ -1,16 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
-import Joi from 'joi';
+import { AnySchema } from 'joi';
 
-export function validate(schema: Joi.ObjectSchema) {
-  return (req: Request, res: Response, next: NextFunction): void => {
-    const { error } = schema.validate(req.body, { abortEarly: false });
-    
+interface ValidationOptions {
+  source?: 'body' | 'params' | 'query';
+  allowUnknown?: boolean;
+}
+
+export function validate(schema: AnySchema, options: ValidationOptions = {}) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const { source = 'body', allowUnknown = false } = options;
+    const { error, value } = schema.validate(req[source], {
+      abortEarly: false,
+      allowUnknown
+    });
+
     if (error) {
-      const errors = error.details.map(detail => detail.message);
-      res.status(400).json({ errors });
-      return; // Explicit return to stop execution
+      return res.status(400).json({
+        errors: error.details.map(d => ({
+          message: d.message,
+          path: d.path
+        }))
+      });
     }
-    
-    next(); // Proceed to next middleware
+
+    req[source] = value;
+    next();
   };
 }
