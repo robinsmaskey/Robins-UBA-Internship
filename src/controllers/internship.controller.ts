@@ -31,7 +31,8 @@ export class InternshipController {
 
   async getInternshipById(req: Request, res: Response) {
     try {
-      const internship = await this.internshipService.getInternshipById(req.params.id);
+      const internshipId = Number(req.params.id);
+      const internship = await this.internshipService.getInternshipById(internshipId);
       res.status(200).json(internship);
     } catch (error: any) {
       if (error.message.includes('not found')) {
@@ -44,7 +45,8 @@ export class InternshipController {
 
   async getInternshipsByUser(req: Request, res: Response) {
     try {
-      const internships = await this.internshipService.getInternshipsByUserId(req.params.userId);
+      const userId = Number(req.params.userId);
+      const internships = await this.internshipService.getInternshipsByUserId(userId);
       res.status(200).json(internships);
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
@@ -53,8 +55,9 @@ export class InternshipController {
 
   async updateInternship(req: Request, res: Response) {
     try {
+      const internshipId = Number(req.params.id);
       const updatedInternship = await this.internshipService.updateInternship(
-        req.params.id,
+        internshipId,
         req.body
       );
       res.status(200).json(updatedInternship);
@@ -71,7 +74,8 @@ export class InternshipController {
 
   async deleteInternship(req: Request, res: Response) {
     try {
-      await this.internshipService.deleteInternship(req.params.id);
+      const internshipId = Number(req.params.id);
+      await this.internshipService.deleteInternship(internshipId);
       res.status(204).send();
     } catch (error: any) {
       if (error.message.includes('not found')) {

@@ -4,7 +4,7 @@ import { User } from './user';
 @Entity()
 export class Internship {
     @PrimaryGeneratedColumn()
-    id!: string;  // Add !
+    id!: number;  // Add !
 
     @OneToOne(() => User, user => user)
     @JoinColumn({ name: 'user_id' })

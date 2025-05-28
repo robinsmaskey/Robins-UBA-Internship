@@ -16,7 +16,7 @@ export class InternshipService {
     return internships.map(this.mapToDetails);
   }
 
-  async getInternshipById(id: string): Promise<Internship> {
+  async getInternshipById(id: number): Promise<Internship> {
     const internship = await this.internshipRepository.findById(id);
     if (!internship) {
       throw new Error('Internship not found');
@@ -24,12 +24,12 @@ export class InternshipService {
     return this.mapToDetails(internship);
   }
 
-  async getInternshipsByUserId(userId: string): Promise<Internship[]> {
+  async getInternshipsByUserId(userId: number): Promise<Internship[]> {
     const internships = await this.internshipRepository.findByUserId(userId);
     return internships.map(this.mapToDetails);
   }
 
-  async updateInternship(id: string, updates: Partial<Internship>): Promise<Internship> {
+  async updateInternship(id: number, updates: Partial<Internship>): Promise<Internship> {
     const internship = await this.internshipRepository.update(id, updates);
     if (!internship) {
       throw new Error('Internship not found');
@@ -37,7 +37,7 @@ export class InternshipService {
     return this.mapToDetails(internship);
   }
 
-  async deleteInternship(id: string): Promise<void> {
+  async deleteInternship(id: number): Promise<void> {
     await this.internshipRepository.delete(id);
   }
 

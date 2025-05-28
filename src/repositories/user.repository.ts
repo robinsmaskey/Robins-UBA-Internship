@@ -60,11 +60,11 @@ export class UserRepository {
         return await this.repository.find();
     }
 
-    async findById(id: string): Promise<User | null> {
+    async findById(id: number): Promise<User | null> {
         return await this.repository.findOneBy({ id });
     }
 
-    async update(id: string, updates: Partial<User>): Promise<User | null> {
+    async update(id: number, updates: Partial<User>): Promise<User | null> {
         await this.repository.update(id, updates);
         return this.findById(id);
     }

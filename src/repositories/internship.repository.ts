@@ -165,14 +165,14 @@ export class InternshipRepository {
     });
   }
 
-  async findById(id: string): Promise<Internship | null> {
+  async findById(id: number): Promise<Internship | null> {
     return await this.repository.findOne({ 
       where: { id },
       relations: ['user'] 
     });
   }
 
-  async findByUserId(userId: string): Promise<Internship[]> {
+  async findByUserId(userId: number): Promise<Internship[]> {
     if (!userId) throw new Error('User ID is required');
     
     return await this.repository.find({ 
@@ -181,7 +181,7 @@ export class InternshipRepository {
     });
   }
 
-  async update(id: string, updates: Partial<Internship>): Promise<Internship | null> {
+  async update(id: number, updates: Partial<Internship>): Promise<Internship | null> {
     // Handle user update if provided
     if (updates.user?.id) {
       const user = await this.userRepository.findOneBy({ id: updates.user.id });
@@ -192,7 +192,7 @@ export class InternshipRepository {
     return this.findById(id);
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: number): Promise<void> {
     await this.repository.delete(id);
   }
 

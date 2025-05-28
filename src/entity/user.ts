@@ -1,10 +1,16 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Internship } from './internship';
 
+export enum UserRole {
+    ADMIN = 'admin',
+    EDITOR = 'editor',
+    USER = 'user'
+  }
+
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id!: string;  // Add !
+    id!: number;  // Add !
 
     @Column()
     firstName!: string;  // Add !
@@ -17,6 +23,13 @@ export class User {
 
     @Column({ select: false }) // This prevents the password from being returned in queries by default
     password!: string;
+
+    @Column({
+        type: 'enum',
+        enum: UserRole,
+        default: UserRole.USER  // This provides initialization
+      })
+      role!: UserRole;  // Add definite assignment assertion
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     created_at!: Date;  // Add !
